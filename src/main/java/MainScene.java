@@ -15,6 +15,7 @@ public class MainScene extends JPanel {
     public static void main(String[] args) throws IOException {
 
     }
+
     private JButton search;
     private JButton negative;
     private JTextField chooseAccount;
@@ -32,9 +33,6 @@ public class MainScene extends JPanel {
     JLabel pic1;
 
 
-
-
-
     public MainScene() throws IOException {
         this.setBounds(0, 0, 900, 500);
         this.setFocusable(true);
@@ -44,15 +42,15 @@ public class MainScene extends JPanel {
         this.setVisible(true);
         this.setBackground(Color.pink);
         this.search = new JButton("search");
-        this.search.setBounds(450,20,80,30);
+        this.search.setBounds(450, 20, 80, 30);
         add(search);
         this.chooseAccount = new JTextField();
-        this.chooseAccount.setBounds(350,20,100,30);
+        this.chooseAccount.setBounds(350, 20, 100, 30);
         add(chooseAccount);
         this.negative = new JButton("negative");
-        this.negative.setBounds(350,50,100,30);
+        this.negative.setBounds(350, 50, 100, 30);
         add(negative);
-        this.negative.addActionListener( (event) -> {
+        this.negative.addActionListener((event) -> {
             try {
                 negative();
             } catch (IOException e) {
@@ -61,9 +59,9 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.colorShiftRight = new JButton("color shift right");
-        this.colorShiftRight.setBounds(350,80,200,30);
+        this.colorShiftRight.setBounds(350, 80, 200, 30);
         add(colorShiftRight);
-        this.colorShiftRight.addActionListener( (event) -> {
+        this.colorShiftRight.addActionListener((event) -> {
             try {
                 colorShiftRight();
             } catch (IOException e) {
@@ -72,9 +70,9 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.colorShiftLeft = new JButton("color shift left");
-        this.colorShiftLeft.setBounds(350,110,200,30);
+        this.colorShiftLeft.setBounds(350, 110, 200, 30);
         add(colorShiftLeft);
-        this.colorShiftLeft.addActionListener( (event) -> {
+        this.colorShiftLeft.addActionListener((event) -> {
             try {
                 colorShiftLeft();
             } catch (IOException e) {
@@ -83,12 +81,12 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.eliminate = new JLabel("eliminate:");
-        this.eliminate.setBounds(270,140,100,30);
+        this.eliminate.setBounds(270, 140, 100, 30);
         add(eliminate);
         this.eliminateRed = new JButton("red");
-        this.eliminateRed.setBounds(350,140,70,30);
+        this.eliminateRed.setBounds(350, 140, 70, 30);
         add(eliminateRed);
-        this.eliminateRed.addActionListener( (event) -> {
+        this.eliminateRed.addActionListener((event) -> {
             try {
                 eliminateRed();
             } catch (IOException e) {
@@ -97,9 +95,9 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.eliminateBlue = new JButton("blue");
-        this.eliminateBlue.setBounds(420,140,70,30);
+        this.eliminateBlue.setBounds(420, 140, 70, 30);
         add(eliminateBlue);
-        this.eliminateBlue.addActionListener( (event) -> {
+        this.eliminateBlue.addActionListener((event) -> {
             try {
                 eliminateBlue();
             } catch (IOException e) {
@@ -108,9 +106,9 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.eliminateGreen = new JButton("green");
-        this.eliminateGreen.setBounds(490,140,70,30);
+        this.eliminateGreen.setBounds(490, 140, 70, 30);
         add(eliminateGreen);
-        this.eliminateGreen.addActionListener( (event) -> {
+        this.eliminateGreen.addActionListener((event) -> {
             try {
                 eliminateGreen();
             } catch (IOException e) {
@@ -119,9 +117,9 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.showBorders = new JButton("show borders");
-        this.showBorders.setBounds(350,170,200,30);
+        this.showBorders.setBounds(350, 170, 200, 30);
         add(showBorders);
-        this.showBorders.addActionListener( (event) -> {
+        this.showBorders.addActionListener((event) -> {
             try {
                 shoeBorders();
             } catch (IOException e) {
@@ -130,9 +128,9 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.darker = new JButton("darker");
-        this.darker.setBounds(350,200,200,30);
+        this.darker.setBounds(350, 200, 200, 30);
         add(darker);
-        this.darker.addActionListener( (event) -> {
+        this.darker.addActionListener((event) -> {
             try {
                 darker();
             } catch (IOException e) {
@@ -140,72 +138,51 @@ public class MainScene extends JPanel {
             }
             repaint();
         });
-        paintImage();
-        // paintImage(getProfile(chooseAccount.getText()));
 
+        this.search.addActionListener( (event) -> {
+            try {
+                paintImage(getProfile(chooseAccount.getText()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-//        this.search.addActionListener( (event) -> {
-//            try {
-//                getProfile(chooseAccount.getText());
-//                paintImage();
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//        });
+        });
     }
 
     public String getProfile(String name) throws IOException {
-        name = "eden mazig";
+        String nameOfAccount = validName(name);
+        System.out.println(nameOfAccount);
         for (int i = 0; i < name.length(); i++) {
             if ((!Character.isLetter(name.charAt(i)))) {
                 name = name.substring(0, i) + name.substring(i + 1);
             }
         }
-        System.setProperty("webdriver.chrome.driver","C:\\Users\\USER\\Downloads\\chromedriver_win32\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\USER\\Downloads\\chromedriver_win32\\chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("C:\\Users\\USER\\AppData\\Local\\Temp\\scoped_dir12424_1911673665\\Default\n");
         ChromeDriver driver = new ChromeDriver(chromeOptions);
         String url = "https://www.facebook.com/" + name;
         driver.get(url);
         driver.manage().window().maximize();
-        boolean ifExist = false;
-        String hrefOfImage= " ";
-        WebElement webElement;
-        do {
-             webElement = driver.findElement(By.className("bp9cbjyn"));
-            if (webElement.isDisplayed()){
-                ifExist =true;
-            }
-        }while (!ifExist);
-        boolean ifHave =false;
-            do {
-                WebElement webElement1 = webElement.findElement(By.cssSelector("image[x=\"0\"]"));
-                if (webElement1.isDisplayed()) {
-                    ifHave = true;
-                    hrefOfImage = webElement1.getAttribute("xlink:href");
-                }
-            } while (!ifHave);
-
-
-
+        String hrefOfImage;
+        WebElement imageElement = driver.findElement(By.cssSelector("a[aria-label=\""+nameOfAccount+"\"]"));
+        WebElement webElement1 = imageElement.findElement(By.cssSelector("image[x=\"0\"]"));
+        hrefOfImage = webElement1.getAttribute("xlink:href");
         return hrefOfImage;
-
     }
 
 
-    public void paintImage () throws IOException {
-//        URL url1 = new URL(hrefOfImage);
-//        InputStream is = url1.openStream();
-//        OutputStream os = new FileOutputStream("image.jpg");
-//        byte [] b = new  byte[2048];
-//        int length;
-//        while ((length= is.read(b)) != -1) {
-//            os.write(b,0,length);
-//        }
-//        is.close();
-//        os.close();
+    public void paintImage(String hrefOfImage) throws IOException {
+        URL url1 = new URL(hrefOfImage);
+        InputStream is = url1.openStream();
+        OutputStream os = new FileOutputStream("image.jpg");
+        byte[] b = new byte[2048];
+        int length;
+        while ((length = is.read(b)) != -1) {
+            os.write(b, 0, length);
+        }
+        is.close();
+        os.close();
 
         removeAfterFilter();
         File file2 = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\image.jpg");
@@ -217,6 +194,29 @@ public class MainScene extends JPanel {
         this.add(pic2);
         repaint();
     }
+
+    public String validName(String name) {
+        String newName = "";
+        capitalLetters(name);
+        String[] arr = name.split(" ");
+        for(int i = 0; i<arr.length;i++) {
+            capitalLetters(arr[i]);
+            newName = newName + " " + capitalLetters(arr[i]);
+
+        }
+        System.out.println(newName.charAt(0) + "0");
+        System.out.println(newName.charAt(1) + "1");
+        newName = newName.substring(1);
+        return newName;
+    }
+
+    public String capitalLetters (String name) {
+        char first = name.charAt(0);
+        char x =Character.toUpperCase(first);
+        name = x + name.substring(1);
+        return name;
+    }
+
 
     public void mirror() throws IOException {
         removeAfterFilter();
