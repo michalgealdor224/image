@@ -53,21 +53,33 @@ public class MainScene extends JPanel {
         this.negative.setBounds(350,50,100,30);
         add(negative);
         this.negative.addActionListener( (event) -> {
-            negative();
+            try {
+                negative();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             repaint();
         });
         this.colorShiftRight = new JButton("color shift right");
         this.colorShiftRight.setBounds(350,80,200,30);
         add(colorShiftRight);
         this.colorShiftRight.addActionListener( (event) -> {
-            colorShiftRight();
+            try {
+                colorShiftRight();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             repaint();
         });
         this.colorShiftLeft = new JButton("color shift left");
         this.colorShiftLeft.setBounds(350,110,200,30);
         add(colorShiftLeft);
         this.colorShiftLeft.addActionListener( (event) -> {
-            colorShiftLeft();
+            try {
+                colorShiftLeft();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             repaint();
         });
         this.eliminate = new JLabel("eliminate:");
@@ -77,38 +89,59 @@ public class MainScene extends JPanel {
         this.eliminateRed.setBounds(350,140,70,30);
         add(eliminateRed);
         this.eliminateRed.addActionListener( (event) -> {
-            eliminateRed();
+            try {
+                eliminateRed();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             repaint();
         });
         this.eliminateBlue = new JButton("blue");
         this.eliminateBlue.setBounds(420,140,70,30);
         add(eliminateBlue);
         this.eliminateBlue.addActionListener( (event) -> {
-            eliminateBlue();
+            try {
+                eliminateBlue();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             repaint();
         });
         this.eliminateGreen = new JButton("green");
         this.eliminateGreen.setBounds(490,140,70,30);
         add(eliminateGreen);
         this.eliminateGreen.addActionListener( (event) -> {
-            eliminateGreen();
+            try {
+                eliminateGreen();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             repaint();
         });
         this.showBorders = new JButton("show borders");
         this.showBorders.setBounds(350,170,200,30);
         add(showBorders);
         this.showBorders.addActionListener( (event) -> {
-            shoeBorders();
+            try {
+                shoeBorders();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             repaint();
         });
         this.darker = new JButton("darker");
         this.darker.setBounds(350,200,200,30);
         add(darker);
         this.darker.addActionListener( (event) -> {
-            darker();
+            try {
+                darker();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             repaint();
         });
-        paintImage(getProfile(chooseAccount.getText()));
+        paintImage();
+        // paintImage(getProfile(chooseAccount.getText()));
 
 
 //        this.search.addActionListener( (event) -> {
@@ -162,26 +195,19 @@ public class MainScene extends JPanel {
     }
 
 
-    public void paintImage (String hrefOfImage) throws IOException {
-        System.out.println(hrefOfImage);
-        URL url1 = new URL(hrefOfImage);
-        InputStream is = url1.openStream();
-        OutputStream os = new FileOutputStream("image.jpg");
-        byte [] b = new  byte[2048];
-        int length;
-        while ((length= is.read(b)) != -1) {
-            os.write(b,0,length);
-        }
-        is.close();
-        os.close();
-        File file = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\jet.jpg");
-         bufferedImage = ImageIO.read(file);
-         pic1 = new JLabel();
-        pic1.setBounds(30, 200, 200, 200);
-        ImageIcon image = new ImageIcon((bufferedImage));
-        pic1.setIcon(image);
-        this.add(pic1);
-        repaint();
+    public void paintImage () throws IOException {
+//        URL url1 = new URL(hrefOfImage);
+//        InputStream is = url1.openStream();
+//        OutputStream os = new FileOutputStream("image.jpg");
+//        byte [] b = new  byte[2048];
+//        int length;
+//        while ((length= is.read(b)) != -1) {
+//            os.write(b,0,length);
+//        }
+//        is.close();
+//        os.close();
+
+        removeAfterFilter();
         File file2 = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\jet.jpg");
         BufferedImage bufferedImage2 = ImageIO.read(file2);
         JLabel pic2 = new JLabel();
@@ -212,7 +238,8 @@ public class MainScene extends JPanel {
 //        mirror=true;
 //    }
 
-    public void darker() {
+    public void darker() throws IOException {
+        removeAfterFilter();
         int width = bufferedImage.getWidth();
         int height = bufferedImage.getHeight();
         for (int x = 0; x < width; x++) {
@@ -226,9 +253,23 @@ public class MainScene extends JPanel {
                 bufferedImage.setRGB(x, y, newColor.getRGB());
             }
         }
+        repaint();
+    }
+    public void removeAfterFilter () throws IOException {
+        if (pic1 != null) {
+            remove(pic1);
+        }
+        File file = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\jet.jpg");
+         bufferedImage = ImageIO.read(file);
+         pic1 = new JLabel();
+        pic1.setBounds(30, 200, 200, 200);
+        ImageIcon image = new ImageIcon((bufferedImage));
+        pic1.setIcon(image);
+        this.add(pic1);
     }
 
-    public static boolean isSimilarColor(Color color1,Color color2){
+    public boolean isSimilarColor(Color color1,Color color2) throws IOException {
+        removeAfterFilter();
         boolean similar=false;
         int redDiff=Math.abs(color1.getRed()-color2.getRed());
         int blueDiff=Math.abs(color1.getBlue()-color2.getBlue());
@@ -238,7 +279,8 @@ public class MainScene extends JPanel {
         }
         return similar;
     }
-    public void negative() {
+    public void negative() throws IOException {
+        removeAfterFilter();
         int width = bufferedImage.getWidth();
         int height = bufferedImage.getHeight();
         for (int x = 0; x < width; x++) {
@@ -253,7 +295,8 @@ public class MainScene extends JPanel {
             }
         }
     }
-    public void eliminateRed() {
+    public void eliminateRed() throws IOException {
+        removeAfterFilter();
         int width = bufferedImage.getWidth();
         int height = bufferedImage.getHeight();
         for (int x = 0; x < width; x++) {
@@ -268,7 +311,8 @@ public class MainScene extends JPanel {
             }
         }
     }
-    public void eliminateGreen() {
+    public void eliminateGreen() throws IOException {
+        removeAfterFilter();
         int width = bufferedImage.getWidth();
         int height = bufferedImage.getHeight();
         for (int x = 0; x < width; x++) {
@@ -284,7 +328,8 @@ public class MainScene extends JPanel {
         }
     }
 
-        public void eliminateBlue() {
+        public void eliminateBlue() throws IOException {
+        removeAfterFilter();
             int width=bufferedImage.getWidth();
             int height=bufferedImage.getHeight();
             for (int x = 0; x < width; x++) {
@@ -299,7 +344,8 @@ public class MainScene extends JPanel {
                 }
             }
 }
-public void colorShiftRight() {
+public void colorShiftRight() throws IOException {
+    removeAfterFilter();
     int width=bufferedImage.getWidth();
     int height=bufferedImage.getHeight();
     for (int x = 0; x < width; x++) {
@@ -317,8 +363,8 @@ public void colorShiftRight() {
 }
 
 
-public void colorShiftLeft () {
-
+public void colorShiftLeft () throws IOException {
+    removeAfterFilter();
     int width=bufferedImage.getWidth();
     int height=bufferedImage.getHeight();
     for (int x = 0; x < width; x++) {
@@ -334,7 +380,8 @@ public void colorShiftLeft () {
     }
 
 }
-public void shoeBorders() {
+public void shoeBorders() throws IOException {
+    removeAfterFilter();
     int rgb=bufferedImage.getRGB(0,0);
     Color pixelColor=new Color(rgb);
     int width=bufferedImage.getWidth();
@@ -349,7 +396,7 @@ public void shoeBorders() {
         }
     }
 }
-    public void blackLine() {
+    public void blackLine() throws IOException {
             int rgb=bufferedImage.getRGB(0,0);
             Color pixelColor=new Color(rgb);
             int width=bufferedImage.getWidth();
