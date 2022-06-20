@@ -28,9 +28,11 @@ public class MainScene extends JPanel {
     private JButton eliminateGreen;
     private JButton lighter;
     private JButton darker;
+    private JButton grayScale;
     private JLabel eliminate;
     BufferedImage bufferedImage;
     JLabel pic1;
+    JLabel pic2;
 
 
     public MainScene() throws IOException {
@@ -138,9 +140,24 @@ public class MainScene extends JPanel {
             }
             repaint();
         });
+        this.grayScale = new JButton("grayscale");
+        this.grayScale.setBounds(350, 230, 200, 30);
+        add(grayScale);
+        this.grayScale.addActionListener((event) -> {
+            try {
+                grayScale();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            repaint();
+        });
 
         this.search.addActionListener( (event) -> {
             try {
+                if (pic2 != null) {
+                    remove(pic2);
+
+                }
                 paintImage(getProfile(chooseAccount.getText()));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -187,7 +204,7 @@ public class MainScene extends JPanel {
         removeAfterFilter();
         File file2 = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\image.jpg");
         BufferedImage bufferedImage2 = ImageIO.read(file2);
-        JLabel pic2 = new JLabel();
+         pic2 = new JLabel();
         pic2.setBounds(600, 200, 200, 200);
         ImageIcon image2 = new ImageIcon((bufferedImage2));
         pic2.setIcon(image2);
@@ -264,6 +281,24 @@ public class MainScene extends JPanel {
                 int green = color.getGreen()/3;
                 int blue = color.getBlue()/3;
                 Color newColor = new Color(red,green,blue );
+                bufferedImage.setRGB(x, y, newColor.getRGB());
+            }
+        }
+        repaint();
+    }
+
+    public void grayScale() throws IOException {
+        removeAfterFilter();
+        int width = bufferedImage.getWidth();
+        int height = bufferedImage.getHeight();
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int current = bufferedImage.getRGB(x, y);
+                Color color = new Color(current);
+                int red = (int) (color.getRed()*(0.299));
+                int green = (int) (color.getGreen() * (0.587));
+                int blue = (int) (color.getBlue()*(0.114));
+                Color newColor = new Color(red+green+blue,red+green+blue,red+green+blue);
                 bufferedImage.setRGB(x, y, newColor.getRGB());
             }
         }
