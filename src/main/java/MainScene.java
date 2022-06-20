@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -28,6 +29,7 @@ public class MainScene extends JPanel {
     private JLabel eliminate;
     BufferedImage bufferedImage;
     JLabel pic1;
+
 
 
 
@@ -98,18 +100,26 @@ public class MainScene extends JPanel {
             shoeBorders();
             repaint();
         });
+        this.darker = new JButton("darker");
+        this.darker.setBounds(350,200,200,30);
+        add(darker);
+        this.darker.addActionListener( (event) -> {
+            darker();
+            repaint();
+        });
+        paintImage();
 
-         paintImage();
-         mirror();
-    //    this.search.addActionListener( (event) -> {
-      //      try {
-                ;
 
-        //    } catch (IOException e) {
-          //      e.printStackTrace();
-            //}
-
-      //  });
+//        this.search.addActionListener( (event) -> {
+//            try {
+//                getProfile(chooseAccount.getText());
+//                paintImage();
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//        });
     }
 
     public String getProfile(String name) throws IOException {
@@ -119,6 +129,9 @@ public class MainScene extends JPanel {
                 name = name.substring(0, i) + name.substring(i + 1);
             }
         }
+//          ChromeOptions chromeOptions = new ChromeOptions();
+//        chromeOptions.addArguments("C:\\Users\\USER\\AppData\\Local\\Google\\Chrome\\User Data\\Default\n");
+//        ChromeDriver driver = new ChromeDriver(chromeOptions);
         String url = "https://www.facebook.com/" + name;
         WebElement webElement = driver.findElement(By.className("bp9cbjyn"));
         WebElement webElement1 = webElement.findElement(By.cssSelector("image[x=\"0\"]"));
@@ -158,17 +171,37 @@ public class MainScene extends JPanel {
         repaint();
     }
 
-    public void mirror() {
+//    public void mirror(){
+//        int width = bufferedImage.getWidth();
+//        int height = bufferedImage.getHeight();
+//        for (int i = 0; i <height; i++) {
+//            for (int j = 0; j < width; j++) {
+//                photoToCopy[i][j]=new Pixel(photo[i][j].getX(),photo[i][j].getY(),photo[i][j].getColor());
+//            }
+//        }
+//        for (int i = 0; i < height; i++) {
+//            for (int j = 0; j < width; j++) {
+//                try{
+//                    Color pixelColor = photoToCopy[i][width-j].getColor();
+//                    photo[i][j].setColor(pixelColor);
+//                }catch (Exception e){}
+//            }
+//        }
+//        repaint();
+//        mirror=true;
+//    }
+
+    public void darker() {
         int width = bufferedImage.getWidth();
         int height = bufferedImage.getHeight();
-        for (int x = width; x < 0; x--) {
-            for (int y = height; y < 0; y--) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
                 int current = bufferedImage.getRGB(x, y);
                 Color color = new Color(current);
-                int red = color.getRed();
-                int green = color.getGreen();
-                int blue = color.getBlue();
-                Color newColor = new Color(red , green , blue );
+                int red = color.getRed()/3;
+                int green = color.getGreen()/3;
+                int blue = color.getBlue()/3;
+                Color newColor = new Color(red,green,blue );
                 bufferedImage.setRGB(x, y, newColor.getRGB());
             }
         }
