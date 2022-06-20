@@ -208,7 +208,7 @@ public class MainScene extends JPanel {
 //        os.close();
 
         removeAfterFilter();
-        File file2 = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\jet.jpg");
+        File file2 = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\image.jpg");
         BufferedImage bufferedImage2 = ImageIO.read(file2);
         JLabel pic2 = new JLabel();
         pic2.setBounds(600, 200, 200, 200);
@@ -218,25 +218,39 @@ public class MainScene extends JPanel {
         repaint();
     }
 
-//    public void mirror(){
-//        int width = bufferedImage.getWidth();
-//        int height = bufferedImage.getHeight();
-//        for (int i = 0; i <height; i++) {
-//            for (int j = 0; j < width; j++) {
-//                photoToCopy[i][j]=new Pixel(photo[i][j].getX(),photo[i][j].getY(),photo[i][j].getColor());
-//            }
-//        }
-//        for (int i = 0; i < height; i++) {
-//            for (int j = 0; j < width; j++) {
-//                try{
-//                    Color pixelColor = photoToCopy[i][width-j].getColor();
-//                    photo[i][j].setColor(pixelColor);
-//                }catch (Exception e){}
-//            }
-//        }
-//        repaint();
-//        mirror=true;
-//    }
+    public void mirror() throws IOException {
+        removeAfterFilter();
+        BufferedImage newBufferedImage = null;
+        BufferedImage pictureCopy = null;
+        int width = bufferedImage.getWidth();
+        int height = bufferedImage.getHeight();
+        for (int x = 0; x <width; x++) {
+            for (int y = 0; y < height; y++) {
+                int current = bufferedImage.getRGB(x, y);
+                Color color = new Color(current);
+                int red = color.getRed();
+                int green = color.getGreen();
+                int blue = color.getBlue();
+                Color newColor = new Color(red,green,blue );
+                File file = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\image.jpg");
+                 newBufferedImage = ImageIO.read(file);
+               // pictureCopy = new BufferedImage(x,y,newColor.getRGB());
+            }
+        }
+
+        for (int x = 0; x <width; x++) {
+            for (int y = 0; y < height; y++) {
+                Color newColor = new Color(newBufferedImage.getRGB(x,y));
+                try {
+                    bufferedImage.setRGB(width-x, y, newColor.getRGB());
+
+                } catch (Exception e) {
+
+                }
+            }
+        }
+        repaint();
+    }
 
     public void darker() throws IOException {
         removeAfterFilter();
@@ -259,7 +273,7 @@ public class MainScene extends JPanel {
         if (pic1 != null) {
             remove(pic1);
         }
-        File file = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\jet.jpg");
+        File file = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\image.jpg");
          bufferedImage = ImageIO.read(file);
          pic1 = new JLabel();
         pic1.setBounds(30, 200, 200, 200);
