@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
 
 public class MainScene extends JPanel {
 
@@ -107,7 +108,7 @@ public class MainScene extends JPanel {
             darker();
             repaint();
         });
-        paintImage();
+        paintImage(getProfile(chooseAccount.getText()));
 
 
 //        this.search.addActionListener( (event) -> {
@@ -129,30 +130,50 @@ public class MainScene extends JPanel {
                 name = name.substring(0, i) + name.substring(i + 1);
             }
         }
-//          ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.addArguments("C:\\Users\\USER\\AppData\\Local\\Google\\Chrome\\User Data\\Default\n");
-//        ChromeDriver driver = new ChromeDriver(chromeOptions);
+        System.setProperty("webdriver.chrome.driver","C:\\Users\\USER\\Downloads\\chromedriver_win32\\chromedriver.exe");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("C:\\Users\\USER\\AppData\\Local\\Temp\\scoped_dir12424_1911673665\\Default\n");
+        ChromeDriver driver = new ChromeDriver(chromeOptions);
         String url = "https://www.facebook.com/" + name;
-        WebElement webElement = driver.findElement(By.className("bp9cbjyn"));
-        WebElement webElement1 = webElement.findElement(By.cssSelector("image[x=\"0\"]"));
-        String hrefOfImage = webElement1.getAttribute("xlink:href");
+        driver.get(url);
+        driver.manage().window().maximize();
+        boolean ifExist = false;
+        String hrefOfImage= " ";
+        WebElement webElement;
+        do {
+             webElement = driver.findElement(By.className("bp9cbjyn"));
+            if (webElement.isDisplayed()){
+                ifExist =true;
+            }
+        }while (!ifExist);
+        boolean ifHave =false;
+            do {
+                WebElement webElement1 = webElement.findElement(By.cssSelector("image[x=\"0\"]"));
+                if (webElement1.isDisplayed()) {
+                    ifHave = true;
+                    hrefOfImage = webElement1.getAttribute("xlink:href");
+                }
+            } while (!ifHave);
+
+
 
         return hrefOfImage;
 
     }
 
 
-    public void paintImage () throws IOException {
-//        URL url1 = new URL(hrefOfImage);
-//        InputStream is = url1.openStream();
-//        OutputStream os = new FileOutputStream("image.jpg");
-//        byte [] b = new  byte[2048];
-//        int length;
-//        while ((length= is.read(b)) != -1) {
-//            os.write(b,0,length);
-//        }
-//        is.close();
-//        os.close();
+    public void paintImage (String hrefOfImage) throws IOException {
+        System.out.println(hrefOfImage);
+        URL url1 = new URL(hrefOfImage);
+        InputStream is = url1.openStream();
+        OutputStream os = new FileOutputStream("image.jpg");
+        byte [] b = new  byte[2048];
+        int length;
+        while ((length= is.read(b)) != -1) {
+            os.write(b,0,length);
+        }
+        is.close();
+        os.close();
         File file = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\jet.jpg");
          bufferedImage = ImageIO.read(file);
          pic1 = new JLabel();
