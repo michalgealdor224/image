@@ -11,6 +11,8 @@ import java.io.*;
 import java.net.URL;
 
 public class MainScene extends JPanel {
+    public static final int WINDOW_WIDTH = 900 , WINDOW_HEIGHT =500;
+
 
     public static void main(String[] args) throws IOException {
 
@@ -19,14 +21,11 @@ public class MainScene extends JPanel {
     private JButton search;
     private JButton negative;
     private JTextField chooseAccount;
-    private ChromeDriver driver;
     private JButton colorShiftRight;
     private JButton colorShiftLeft;
-    private JButton showBorders;
     private JButton eliminateRed;
     private JButton eliminateBlue;
     private JButton eliminateGreen;
-    private JButton lighter;
     private JButton darker;
     private JButton grayScale;
     private JLabel eliminate;
@@ -35,8 +34,8 @@ public class MainScene extends JPanel {
     JLabel pic2;
 
 
-    public MainScene() throws IOException {
-        this.setBounds(0, 0, 900, 500);
+    public MainScene()  {
+        this.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setFocusable(true);
         this.requestFocus();
         this.setLayout(null);
@@ -285,17 +284,6 @@ public class MainScene extends JPanel {
         this.add(pic1);
     }
 
-    public boolean isSimilarColor(Color color1,Color color2) throws IOException {
-        removeAfterFilter();
-        boolean similar=false;
-        int redDiff=Math.abs(color1.getRed()-color2.getRed());
-        int blueDiff=Math.abs(color1.getBlue()-color2.getBlue());
-        int greenDiff=Math.abs(color1.getGreen()-color2.getGreen());
-        if (redDiff+greenDiff+blueDiff<90){
-            similar=true;
-        }
-        return similar;
-    }
     public void negative() throws IOException {
         removeAfterFilter();
         int width = bufferedImage.getWidth();
