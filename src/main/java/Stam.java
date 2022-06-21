@@ -1,11 +1,21 @@
 public class Stam {
     public static void main(String[] args) {
         Stam stam = new Stam();
-        System.out.println(stam.validName("pnina kadosh"));
+        System.out.println(stam.validName(stam.smallLetters("PNINA KADOSH")));
 
 
 
     }
+    public String smallLetters (String name) {
+        String newName="";
+        for (int i = 0; i <name.length() ; i++) {
+            char x = Character.toLowerCase(name.charAt(i));
+            newName = newName + x;
+        }
+        return newName;
+    }
+
+
     public String validName(String name) {
         String newName = "";
         capitalLetters(name);

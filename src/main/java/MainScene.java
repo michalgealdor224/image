@@ -118,17 +118,7 @@ public class MainScene extends JPanel {
             }
             repaint();
         });
-        this.showBorders = new JButton("show borders");
-        this.showBorders.setBounds(350, 170, 200, 30);
-        add(showBorders);
-        this.showBorders.addActionListener((event) -> {
-            try {
-                shoeBorders();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            repaint();
-        });
+
         this.darker = new JButton("darker");
         this.darker.setBounds(350, 200, 200, 30);
         add(darker);
@@ -141,7 +131,7 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.grayScale = new JButton("grayscale");
-        this.grayScale.setBounds(350, 230, 200, 30);
+        this.grayScale.setBounds(350, 170, 200, 30);
         add(grayScale);
         this.grayScale.addActionListener((event) -> {
             try {
@@ -167,7 +157,7 @@ public class MainScene extends JPanel {
     }
 
     public String getProfile(String name) throws IOException {
-        String nameOfAccount = validName(name);
+        String nameOfAccount = validName(smallLetters(name));
         System.out.println(nameOfAccount);
         for (int i = 0; i < name.length(); i++) {
             if ((!Character.isLetter(name.charAt(i)))) {
@@ -233,41 +223,19 @@ public class MainScene extends JPanel {
         name = x + name.substring(1);
         return name;
     }
-
-
-    public void mirror() throws IOException {
-        removeAfterFilter();
-        BufferedImage newBufferedImage = null;
-        BufferedImage pictureCopy = null;
-        int width = bufferedImage.getWidth();
-        int height = bufferedImage.getHeight();
-        for (int x = 0; x <width; x++) {
-            for (int y = 0; y < height; y++) {
-                int current = bufferedImage.getRGB(x, y);
-                Color color = new Color(current);
-                int red = color.getRed();
-                int green = color.getGreen();
-                int blue = color.getBlue();
-                Color newColor = new Color(red,green,blue );
-                File file = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\image.jpg");
-                 newBufferedImage = ImageIO.read(file);
-               // pictureCopy = new BufferedImage(x,y,newColor.getRGB());
-            }
+    public String smallLetters (String name) {
+        String newName="";
+        for (int i = 0; i <name.length() ; i++) {
+            char x = Character.toLowerCase(name.charAt(i));
+            newName = newName + x;
         }
-
-        for (int x = 0; x <width; x++) {
-            for (int y = 0; y < height; y++) {
-                Color newColor = new Color(newBufferedImage.getRGB(x,y));
-                try {
-                    bufferedImage.setRGB(width-x, y, newColor.getRGB());
-
-                } catch (Exception e) {
-
-                }
-            }
-        }
-        repaint();
+        return newName;
     }
+
+
+
+
+
 
     public void darker() throws IOException {
         removeAfterFilter();
@@ -429,41 +397,8 @@ public void colorShiftLeft () throws IOException {
     }
 
 }
-public void shoeBorders() throws IOException {
-    removeAfterFilter();
-    int rgb=bufferedImage.getRGB(0,0);
-    Color pixelColor=new Color(rgb);
-    int width=bufferedImage.getWidth();
-    int height=bufferedImage.getHeight();
-    for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
-            int current = bufferedImage.getRGB(x, y);
-            Color color = new Color(current);
-            if (isSimilarColor(pixelColor, color)) {
-                bufferedImage.setRGB(x, y, Color.black.getRGB());
-            }
-        }
-    }
-}
-    public void blackLine() throws IOException {
-            int rgb=bufferedImage.getRGB(0,0);
-            Color pixelColor=new Color(rgb);
-            int width=bufferedImage.getWidth();
-            int height=bufferedImage.getHeight();
-        Color previousPixel=null;
-        for (int x = 0; x < width; x++) {
-                for (int y = 0; y <height; y++) {
-                    int current=bufferedImage.getRGB(x,y);
-                   Color color=new Color(current);
-                   if (previousPixel!=null&&!isSimilarColor(previousPixel,color)){
-                        bufferedImage.setRGB(x,y,Color.black.getRGB());
-                   }
-                    previousPixel=color;
-                }
 
-        }
 
-    }
 
 
 
