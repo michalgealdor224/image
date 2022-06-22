@@ -27,6 +27,7 @@ public class MainScene extends JPanel {
     private JButton eliminateBlue;
     private JButton eliminateGreen;
     private JButton darker;
+    private JButton lighter;
     private JButton grayScale;
     private JLabel eliminate;
     BufferedImage bufferedImage;
@@ -82,7 +83,7 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.eliminate = new JLabel("eliminate:");
-        this.eliminate.setBounds(270, 140, 100, 30);
+        this.eliminate.setBounds(290, 140, 100, 30);
         add(eliminate);
         this.eliminateRed = new JButton("red");
         this.eliminateRed.setBounds(350, 140, 70, 30);
@@ -140,6 +141,17 @@ public class MainScene extends JPanel {
             }
             repaint();
         });
+        this.lighter = new JButton("lighter");
+        this.lighter.setBounds(350, 230, 200, 30);
+        add(lighter);
+        this.lighter.addActionListener((event) -> {
+            try {
+                lighter();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            repaint();
+        });
 
         this.search.addActionListener( (event) -> {
             try {
@@ -165,7 +177,7 @@ public class MainScene extends JPanel {
         }
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\USER\\Downloads\\chromedriver_win32\\chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("C:\\Users\\USER\\AppData\\Local\\Temp\\scoped_dir12424_1911673665\\Default\n");
+        chromeOptions.addArguments("user-data-dir=C:\\Users\\USER\\AppData\\Local\\Temp\\scoped_dir12424_1911673665\\Default\n");
         ChromeDriver driver = new ChromeDriver(chromeOptions);
         String url = "https://www.facebook.com/" + name;
         driver.get(url);
@@ -194,7 +206,7 @@ public class MainScene extends JPanel {
         File file2 = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\image.jpg");
         BufferedImage bufferedImage2 = ImageIO.read(file2);
          pic2 = new JLabel();
-        pic2.setBounds(600, 200, 200, 200);
+        pic2.setBounds(30, 150, 300, 300);
         ImageIcon image2 = new ImageIcon((bufferedImage2));
         pic2.setIcon(image2);
         this.add(pic2);
@@ -230,7 +242,32 @@ public class MainScene extends JPanel {
         }
         return newName;
     }
-
+    public void lighter() throws IOException {
+        removeAfterFilter();
+        int width = bufferedImage.getWidth();
+        int height = bufferedImage.getHeight();
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int current = bufferedImage.getRGB(x, y);
+                Color color = new Color(current);
+                int red = color.getRed()+ (color.getRed()/3);
+                if (red > 255) {
+                    red=255;
+                }
+                int green = color.getGreen() +(color.getGreen()/3);
+                if (green > 255) {
+                    green=255;
+                }
+                int blue = color.getBlue()+ (color.getBlue()/3);
+                if (blue > 255) {
+                    blue=255;
+                }
+                Color newColor = new Color(red,green,blue );
+                bufferedImage.setRGB(x, y, newColor.getRGB());
+            }
+        }
+        repaint();
+    }
 
 
 
@@ -278,7 +315,7 @@ public class MainScene extends JPanel {
         File file = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\image.jpg");
          bufferedImage = ImageIO.read(file);
          pic1 = new JLabel();
-        pic1.setBounds(30, 200, 200, 200);
+        pic1.setBounds(570, 150, 300, 300);
         ImageIcon image = new ImageIcon((bufferedImage));
         pic1.setIcon(image);
         this.add(pic1);
