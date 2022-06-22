@@ -11,7 +11,16 @@ import java.io.*;
 import java.net.URL;
 
 public class MainScene extends JPanel {
-    public static final int WINDOW_WIDTH = 900 , WINDOW_HEIGHT =500;
+    public static final int WINDOW_WIDTH = 900 , WINDOW_HEIGHT =500, WINDOW_X = 0 ,WINDOW_Y= 0 , X_SEARCH = 450, Y_SEARCH =20,
+     WIDTH_SEARCH=80 , HEIGHT_BUTTON = 30, X_OF_BUTTON =350, WIDTH_OF_SEARCH =100,WIDTH_OF_BUTTON =200,
+    WIDTH_OF_ELIMINATE= 70,Y_OF_CHOOSE_ACCOUNT =20, Y_OF_NEGATIVE =50,Y_OF_COLOR_SHIFT_RIGHT =80,Y_OF_COLOR_SHIFT_LEFT =110,
+            Y_OF_ELIMINATE= 140, X_OF_ELIMINATE= 290, X_OF_ELIMINATE_BLUE =420,X_OF_ELIMINATE_GREEN =490,
+    Y_OF_DARKER=200,Y_OF_GRAYSCALE =170, Y_OF_LIGHTER = 230, START_WORD=0, SECOND_CHAR =1, MAX_OF_SIZE=2048, FINISH=-1,
+    ZERO =0, X_OF_PIC2 = 30, Y_OF_PIC = 150, WIDTH_OF_PIC = 300, HEIGHT_OF_PIC = 300,
+            X_OF_PIC1 = 570, FIRST_CHAR=0, MAX_OF_RGB=255, NUMBER_DIVISION=3, NO_HAVE=0;
+    public static final double GRAYSCALE_RED =0.299,GRAYSCALE_GREEN =0.587,
+    GRAYSCALE_BLUE = 0.114;
+
 
 
     public static void main(String[] args) throws IOException {
@@ -36,7 +45,7 @@ public class MainScene extends JPanel {
 
 
     public MainScene()  {
-        this.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.setBounds(WINDOW_X, WINDOW_Y, WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setFocusable(true);
         this.requestFocus();
         this.setLayout(null);
@@ -44,13 +53,13 @@ public class MainScene extends JPanel {
         this.setVisible(true);
         this.setBackground(Color.pink);
         this.search = new JButton("search");
-        this.search.setBounds(450, 20, 80, 30);
+        this.search.setBounds(X_SEARCH, Y_SEARCH, WIDTH_SEARCH, HEIGHT_BUTTON);
         add(search);
         this.chooseAccount = new JTextField();
-        this.chooseAccount.setBounds(350, 20, 100, 30);
+        this.chooseAccount.setBounds(X_OF_BUTTON, Y_OF_CHOOSE_ACCOUNT, WIDTH_OF_SEARCH, HEIGHT_BUTTON);
         add(chooseAccount);
         this.negative = new JButton("negative");
-        this.negative.setBounds(350, 50, 100, 30);
+        this.negative.setBounds(X_OF_BUTTON, Y_OF_NEGATIVE, WIDTH_OF_BUTTON, HEIGHT_BUTTON);
         add(negative);
         this.negative.addActionListener((event) -> {
             try {
@@ -61,7 +70,7 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.colorShiftRight = new JButton("color shift right");
-        this.colorShiftRight.setBounds(350, 80, 200, 30);
+        this.colorShiftRight.setBounds(X_OF_BUTTON, Y_OF_COLOR_SHIFT_RIGHT, WIDTH_OF_BUTTON, HEIGHT_BUTTON);
         add(colorShiftRight);
         this.colorShiftRight.addActionListener((event) -> {
             try {
@@ -72,7 +81,7 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.colorShiftLeft = new JButton("color shift left");
-        this.colorShiftLeft.setBounds(350, 110, 200, 30);
+        this.colorShiftLeft.setBounds(X_OF_BUTTON, Y_OF_COLOR_SHIFT_LEFT, WIDTH_OF_BUTTON, HEIGHT_BUTTON);
         add(colorShiftLeft);
         this.colorShiftLeft.addActionListener((event) -> {
             try {
@@ -83,10 +92,10 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.eliminate = new JLabel("eliminate:");
-        this.eliminate.setBounds(290, 140, 100, 30);
+        this.eliminate.setBounds(X_OF_ELIMINATE, Y_OF_ELIMINATE, WIDTH_OF_SEARCH, HEIGHT_BUTTON);
         add(eliminate);
         this.eliminateRed = new JButton("red");
-        this.eliminateRed.setBounds(350, 140, 70, 30);
+        this.eliminateRed.setBounds(X_OF_BUTTON, Y_OF_ELIMINATE, WIDTH_OF_ELIMINATE, HEIGHT_BUTTON);
         add(eliminateRed);
         this.eliminateRed.addActionListener((event) -> {
             try {
@@ -97,7 +106,7 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.eliminateBlue = new JButton("blue");
-        this.eliminateBlue.setBounds(420, 140, 70, 30);
+        this.eliminateBlue.setBounds(X_OF_ELIMINATE_BLUE, Y_OF_ELIMINATE, WIDTH_OF_ELIMINATE, HEIGHT_BUTTON);
         add(eliminateBlue);
         this.eliminateBlue.addActionListener((event) -> {
             try {
@@ -108,7 +117,7 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.eliminateGreen = new JButton("green");
-        this.eliminateGreen.setBounds(490, 140, 70, 30);
+        this.eliminateGreen.setBounds(X_OF_ELIMINATE_GREEN, Y_OF_ELIMINATE, WIDTH_OF_ELIMINATE, HEIGHT_BUTTON);
         add(eliminateGreen);
         this.eliminateGreen.addActionListener((event) -> {
             try {
@@ -120,7 +129,7 @@ public class MainScene extends JPanel {
         });
 
         this.darker = new JButton("darker");
-        this.darker.setBounds(350, 200, 200, 30);
+        this.darker.setBounds(X_OF_BUTTON, Y_OF_DARKER, WIDTH_OF_BUTTON, HEIGHT_BUTTON);
         add(darker);
         this.darker.addActionListener((event) -> {
             try {
@@ -131,7 +140,7 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.grayScale = new JButton("grayscale");
-        this.grayScale.setBounds(350, 170, 200, 30);
+        this.grayScale.setBounds(X_OF_BUTTON, Y_OF_GRAYSCALE, WIDTH_OF_BUTTON, HEIGHT_BUTTON);
         add(grayScale);
         this.grayScale.addActionListener((event) -> {
             try {
@@ -142,7 +151,7 @@ public class MainScene extends JPanel {
             repaint();
         });
         this.lighter = new JButton("lighter");
-        this.lighter.setBounds(350, 230, 200, 30);
+        this.lighter.setBounds(X_OF_BUTTON, Y_OF_LIGHTER, WIDTH_OF_BUTTON, HEIGHT_BUTTON);
         add(lighter);
         this.lighter.addActionListener((event) -> {
             try {
@@ -172,7 +181,7 @@ public class MainScene extends JPanel {
         System.out.println(nameOfAccount);
         for (int i = 0; i < name.length(); i++) {
             if ((!Character.isLetter(name.charAt(i)))) {
-                name = name.substring(0, i) + name.substring(i + 1);
+                name = name.substring(START_WORD, i) + name.substring(i + SECOND_CHAR);
             }
         }
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\USER\\Downloads\\chromedriver_win32\\chromedriver.exe");
@@ -194,10 +203,10 @@ public class MainScene extends JPanel {
         URL url1 = new URL(hrefOfImage);
         InputStream is = url1.openStream();
         OutputStream os = new FileOutputStream("image.jpg");
-        byte[] b = new byte[2048];
+        byte[] b = new byte[MAX_OF_SIZE];
         int length;
-        while ((length = is.read(b)) != -1) {
-            os.write(b, 0, length);
+        while ((length = is.read(b)) != FINISH) {
+            os.write(b, ZERO, length);
         }
         is.close();
         os.close();
@@ -206,7 +215,7 @@ public class MainScene extends JPanel {
         File file2 = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\image.jpg");
         BufferedImage bufferedImage2 = ImageIO.read(file2);
          pic2 = new JLabel();
-        pic2.setBounds(30, 150, 300, 300);
+        pic2.setBounds(X_OF_PIC2, Y_OF_PIC, WIDTH_OF_PIC, HEIGHT_OF_PIC);
         ImageIcon image2 = new ImageIcon((bufferedImage2));
         pic2.setIcon(image2);
         this.add(pic2);
@@ -222,16 +231,14 @@ public class MainScene extends JPanel {
             newName = newName + " " + capitalLetters(arr[i]);
 
         }
-        System.out.println(newName.charAt(0) + "0");
-        System.out.println(newName.charAt(1) + "1");
-        newName = newName.substring(1);
+        newName = newName.substring(SECOND_CHAR);
         return newName;
     }
 
     public String capitalLetters (String name) {
-        char first = name.charAt(0);
+        char first = name.charAt(FIRST_CHAR);
         char x =Character.toUpperCase(first);
-        name = x + name.substring(1);
+        name = x + name.substring(SECOND_CHAR);
         return name;
     }
     public String smallLetters (String name) {
@@ -250,17 +257,17 @@ public class MainScene extends JPanel {
             for (int y = 0; y < height; y++) {
                 int current = bufferedImage.getRGB(x, y);
                 Color color = new Color(current);
-                int red = color.getRed()+ (color.getRed()/3);
-                if (red > 255) {
-                    red=255;
+                int red = color.getRed()+ (color.getRed()/NUMBER_DIVISION);
+                if (red > MAX_OF_RGB) {
+                    red=MAX_OF_RGB;
                 }
-                int green = color.getGreen() +(color.getGreen()/3);
-                if (green > 255) {
-                    green=255;
+                int green = color.getGreen() +(color.getGreen()/NUMBER_DIVISION);
+                if (green > MAX_OF_RGB) {
+                    green=MAX_OF_RGB;
                 }
-                int blue = color.getBlue()+ (color.getBlue()/3);
-                if (blue > 255) {
-                    blue=255;
+                int blue = color.getBlue()+ (color.getBlue()/NUMBER_DIVISION);
+                if (blue > MAX_OF_RGB) {
+                    blue=MAX_OF_RGB;
                 }
                 Color newColor = new Color(red,green,blue );
                 bufferedImage.setRGB(x, y, newColor.getRGB());
@@ -281,9 +288,9 @@ public class MainScene extends JPanel {
             for (int y = 0; y < height; y++) {
                 int current = bufferedImage.getRGB(x, y);
                 Color color = new Color(current);
-                int red = color.getRed()/3;
-                int green = color.getGreen()/3;
-                int blue = color.getBlue()/3;
+                int red = color.getRed()/NUMBER_DIVISION;
+                int green = color.getGreen()/NUMBER_DIVISION;
+                int blue = color.getBlue()/NUMBER_DIVISION;
                 Color newColor = new Color(red,green,blue );
                 bufferedImage.setRGB(x, y, newColor.getRGB());
             }
@@ -299,9 +306,9 @@ public class MainScene extends JPanel {
             for (int y = 0; y < height; y++) {
                 int current = bufferedImage.getRGB(x, y);
                 Color color = new Color(current);
-                int red = (int) (color.getRed()*(0.299));
-                int green = (int) (color.getGreen() * (0.587));
-                int blue = (int) (color.getBlue()*(0.114));
+                int red = (int) (color.getRed()*(GRAYSCALE_RED));
+                int green = (int) (color.getGreen() * (GRAYSCALE_GREEN));
+                int blue = (int) (color.getBlue()*(GRAYSCALE_BLUE));
                 Color newColor = new Color(red+green+blue,red+green+blue,red+green+blue);
                 bufferedImage.setRGB(x, y, newColor.getRGB());
             }
@@ -315,7 +322,7 @@ public class MainScene extends JPanel {
         File file = new File("C:\\Users\\USER\\IdeaProjects\\image processing\\image.jpg");
          bufferedImage = ImageIO.read(file);
          pic1 = new JLabel();
-        pic1.setBounds(570, 150, 300, 300);
+        pic1.setBounds(X_OF_PIC1, Y_OF_PIC, WIDTH_OF_PIC, HEIGHT_OF_PIC);
         ImageIcon image = new ImageIcon((bufferedImage));
         pic1.setIcon(image);
         this.add(pic1);
@@ -332,7 +339,7 @@ public class MainScene extends JPanel {
                 int red = color.getRed();
                 int green = color.getGreen();
                 int blue = color.getBlue();
-                Color newColor = new Color(255 - red, 255 - green, 255 - blue);
+                Color newColor = new Color(MAX_OF_RGB - red, MAX_OF_RGB - green, MAX_OF_RGB - blue);
                 bufferedImage.setRGB(x, y, newColor.getRGB());
             }
         }
@@ -345,7 +352,7 @@ public class MainScene extends JPanel {
             for (int y = 0; y < height; y++) {
                 int current = bufferedImage.getRGB(x, y);
                 Color color = new Color(current);
-                int red = 0;
+                int red = NO_HAVE;
                 int green = color.getGreen();
                 int blue = color.getBlue();
                 Color newColor = new Color(red, green, blue);
@@ -362,7 +369,7 @@ public class MainScene extends JPanel {
                 int current = bufferedImage.getRGB(x, y);
                 Color color = new Color(current);
                 int red = color.getRed();
-                int green =0;
+                int green =NO_HAVE;
                 int blue = color.getBlue();
                 Color newColor = new Color(red, green, blue);
                 bufferedImage.setRGB(x, y, newColor.getRGB());
@@ -380,7 +387,7 @@ public class MainScene extends JPanel {
                     Color color=new Color(current);
                     int red=color.getRed();
                     int green=color.getGreen();
-                    int blue=0;
+                    int blue=NO_HAVE;
                     Color newColor=new Color(red,green,blue);
                     bufferedImage.setRGB(x,y,newColor.getRGB());
                 }
